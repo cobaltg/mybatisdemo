@@ -20,30 +20,57 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Message">
-
-  <resultMap type="com.zfy.bean.Message" id="Message">
+<mapper namespace="com.zfy.dao.IMessage">
+  
+  <resultMap type="com.zfy.bean.Message" id="MessageResult">
     <id column="ID" jdbcType="INTEGER" property="id"/>
     <result column="COMMAND" jdbcType="VARCHAR" property="command"/>
     <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
     <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
   </resultMap>
-
-  <select id="Message.queryMessageList" parameterType="com.zfy.bean.Message"  resultMap="Message">
-    select ID,COMMAND,DESCRIPTION,CONTENT from message where 1=1
-    <if test="command!=null and !&quot;&quot;.equals(command.trim())">and COMMAND=#{command}</if>
-    <if test="description!=null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{description} '%'</if>
+	<!-- 相当于常量 -->
+    <sql id="columns">ID,COMMAND,DESCRIPTION,CONTENT</sql>
+  
+  <select id="queryMessageList" parameterType="java.util.Map"  resultMap="MessageResult">
+    select <include refid="columns"/> from MESSAGE
+    <where>
+    	<if test="message.command!=null and !&quot;&quot;.equals(message.command.trim())">and COMMAND=#{message.command}</if>
+    	<if test="message.description!=null and !&quot;&quot;.equals(message.description.trim())">and DESCRIPTION like '%' #{message.description} '%'</if>
+    </where>
+    order by ID limit #{page.dbIndex},#{page.dbNumber}
   </select>
   
-  <delete id="Message.deleteOne" parameterType="int">
-  	delete from MESSAGE where ID=#{_parameter}
+    <select id="queryMessageListByPage" parameterType="java.util.Map" resultMap="MessageResult">
+    select <include refid="columns"/> from MESSAGE
+    <where>
+    	<if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">
+	    	and COMMAND=#{message.command}
+	    </if>
+	    <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">
+	    	and DESCRIPTION like '%' #{message.description} '%'
+	    </if>
+    </where>
+    order by ID
+  </select>
+  
+    <select id="count" parameterType="com.zfy.bean.Message"  resultType="int">
+    select count(*) from MESSAGE 
+    <where>
+    	<if test="command!=null and !&quot;&quot;.equals(command.trim())">and COMMAND=#{command}</if>
+    	<if test="description!=null and !&quot;&quot;.equals(description.trim())">and DESCRIPTION like '%' #{description} '%'</if>
+    </where>
+  </select>
+  
+  <delete id="deleteOne" parameterType="int">
+  	delete from MESSAGE where ID = #{_parameter}
   </delete>
   
-  <delete id="Message.deleteBatch" parameterType="java.util.List">
+  <delete id="deleteBatch" parameterType="java.util.List">
   	delete from MESSAGE where ID in(
   		<foreach collection="list" item="item" separator=",">
   			#{item}
   		</foreach>
   	)
   </delete>
+  
 </mapper>

@@ -1,12 +1,8 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-		+ request.getServerName() + ":" + request.getServerPort()
-		+ path+"/";
-		request.setAttribute("realPath", basePath);
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -15,11 +11,12 @@
 		<title>内容列表页面</title>
 		<link href="<%= basePath %>resources/css/all.css" rel="stylesheet" type="text/css" />
 		<script src="<%= basePath %>resources/js/common/jquery-1.8.0.min.js"></script>
-		<script src="<%= basePath %>resources/back/js/list.js"></script>
+		<script src="<%= basePath %>resources/js/back/list.js"></script>
 	</head>
-
 	<body style="background: #e1e9eb;">
-		<form action="<%=basePath %>List.action" id="mainForm" method="post">
+		<form action="<%= basePath %>List.action" id="mainForm" method="post">
+			<input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+			
 			<div class="right">
 				<div class="current">当前位置：<a href="javascript:void(0)" style="color:#6E6E6E;">内容管理</a> &gt; 内容列表</div>
 				<div class="rightCont">
@@ -29,11 +26,11 @@
 							<tr>
 								<td width="90" align="right">指令名称：</td>
 								<td>
-									<input name="command" type="text" class="allInput" value="${command }"/>
+									<input name="command" type="text" class="allInput" value="${command}"/>
 								</td>
 								<td width="90" align="right">描述：</td>
 								<td>
-									<input name="description" type="text" class="allInput" value="${description }"/>
+									<input name="description" type="text" class="allInput" value="${description}"/>
 								</td>
 	                            <td width="85" align="right"><input type="submit" class="tabSub" value="查 询" /></td>
 	       					</tr>
@@ -50,28 +47,39 @@
 								    <th>操作</th>
 								</tr>
 								<c:forEach items="${messageList}" var="message" varStatus="status">
-									<tr <c:if test="${status.index%2!=0 }">style="background-color:#ECF6EE;"</c:if> >
-									<td><input type="checkbox" name="id" value="${message.id}"/></td>
-										<td>${status.index+1 }</td>
-										<td>${message.command }</td>
-										<td>${message.description }</td>
+									<tr  <c:if test="${status.index % 2 != 0}">style='background-color:#ECF6EE;'</c:if>>
+										<td><input type="checkbox"  name="id" value="${message.id}"/></td>
+										<td>${status.index + 1}</td>
+										<td>${message.command}</td>
+										<td>${message.description}</td>
 										<td>
 											<a href="#">修改</a>&nbsp;&nbsp;&nbsp;
-											<a href="${basePath}DeleteOneServlet.action?id=${message.id }">删除</a>
+											<a href="${basePath}DeleteOneServlet.action?id=${message.id}">删除</a>
 										</td>
 									</tr>
-								</c:forEach>		
+								</c:forEach>
 							</tbody>
 						</table>
 						<div class='page fix'>
-							共 <b></b>4</b> 条
-							<a href='###' class='first'>首页</a>
-							<a href='###' class='pre'>上一页</a>
-							当前第<span>1/1</span>页
-							<a href='###' class='next'>下一页</a>
-							<a href='###' class='last'>末页</a>
-							跳至&nbsp;<input type='text' value='1' class='allInput w28' />&nbsp;页&nbsp;
-							<a href='###' class='go'>GO</a>
+							共 <b>${page.totalNumber}</b> 条
+							<c:if test="${page.currentPage != 1}">
+								<a href="${basePath}List.action?currentPage=1" class='first'>首页</a>
+								<a href="${basePath}List.action?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
+							</c:if>			
+							当前第<span>${page.currentPage}/${page.totalPage}</span>页
+							
+							<c:if test="${page.currentPage != page.totalPage}">		
+							<a href="${basePath}List.action?currentPage=${page.currentPage+1}" class='next'>下一页</a>						
+							<a href="${basePath}List.action?currentPage=${page.totalPage}" class='last'>末页</a>
+<!-- 未解决，使用此方式点击下一页等没有反应 -->				
+<!-- <a href="javascript:changeCurrentPage('${page.currentPage+1}');" class='next'>下一页</a>							
+	 <a href="javascript:changeCurrentPage('${page.totalPage}');" class='last'>末页</a>
+-->							
+							</c:if>
+<!-- 
+	  跳至&nbsp;<input id="currentPageText"  type='text' value='${page.currentPage}' class='allInput' />&nbsp;页&nbsp;
+	 <a href="${basePath}List.action?currentPage= >" class='go'>GO</a>
+ -->
 						</div>
 					</div>
 				</div>

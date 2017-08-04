@@ -23,4 +23,15 @@ public interface IMessage {
 	 * 根据查询条件分页查询消息列表
 	 */
 	public List<Message> queryMessageListByPage(Map<String,Object> parameter);
+	
+	/**
+	 * 单条删除
+	 */
+	public void deleteOne(int id);
+	
+	/**
+	 * 批量删除
+	 * @param ids
+	 */
+	public void deleteBatch(List<Integer> ids);
 }

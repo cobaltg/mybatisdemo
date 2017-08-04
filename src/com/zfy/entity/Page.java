@@ -3,7 +3,7 @@ package com.zfy.entity;
 public class Page {
 	
 	//总条数
-	private int totalNumber;
+	private int totalNumber;  
 	//当前第几页
 	private int currentPage;
 	//总页数
@@ -49,6 +49,7 @@ public class Page {
 
 	public void setTotalNumber(int totalNumber) {
 		this.totalNumber = totalNumber;
+		this.count();
 	}
 
 	public int getCurrentPage() {
@@ -73,6 +74,7 @@ public class Page {
 
 	public void setPageNumber(int pageNumber) {
 		this.pageNumber = pageNumber;
+		//this.count();
 	}
 
 	public int getDbIndex() {

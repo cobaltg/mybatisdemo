@@ -12,22 +12,19 @@ import com.zfy.db.DBAccess;
 
 public class MessageDao {
 	/**
-	 * 查询消息列表
+	 * 根据查询条件查询消息列表
 	 */
 	
-	public List<Message> queryMessageList(String command, String description){
+	public List<Message> queryMessageList(Map<String,Object> parameter){
 		DBAccess dbAccess=new DBAccess();
 		SqlSession sqlSession=null;
 		List<Message> messageList=new ArrayList<Message>();
 		try {
 			sqlSession=dbAccess.getSqlSession();
-			Message message=new Message();
-			message.setCommand(command);
-			message.setDescription(description);
 			//通过sqlSession执行SQL语句
-			messageList=sqlSession.selectList("Message.queryMessageList",message);
-//			IMessage imessage=sqlSession.getMapper(IMessage.class);
-//			messageList=imessage.queryMessageList(message);
+		//	messageList=sqlSession.selectList("Message.queryMessageList",message);
+			IMessage imessage=sqlSession.getMapper(IMessage.class);
+			messageList=imessage.queryMessageList(parameter);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -73,7 +70,7 @@ public class MessageDao {
 			sqlSession = dbAccess.getSqlSession();
 			// 通过sqlSession执行SQL语句
 			IMessage imessage = sqlSession.getMapper(IMessage.class);
-			messageList = imessage.queryMessageListByPage(parameter);
+			messageList = imessage.queryMessageListByPage(parameter);			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,7 +82,9 @@ public class MessageDao {
 		return messageList;
 	}
 	
-	
+	/**
+	 * 传统的JDBC连接数据库，操作数据，手动来映射表和对象的关系
+	 */
 	//	List<Message> messageList=new ArrayList<Message>();
 		//连接数据库
 //		try {
@@ -106,7 +105,7 @@ public class MessageDao {
 //				statement.setString(i+1, paramList.get(i));
 //			}			
 //			ResultSet rs=statement.executeQuery();
-//			
+//			//手动来映射表和对象的关系
 //			while(rs.next()){
 //				Message message=new Message();
 //				message.setId(rs.getString("ID"));
@@ -133,7 +132,10 @@ public class MessageDao {
 		SqlSession sqlSession=null;
 		try {
 			sqlSession=dbAccess.getSqlSession();
-			sqlSession.delete("Message.deleteOne",id);
+			//接口式编程
+			IMessage imessage = sqlSession.getMapper(IMessage.class);
+			imessage.deleteOne(id);
+			//sqlSession.delete("Message.deleteOne",id);
 			sqlSession.commit();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -151,7 +153,10 @@ public class MessageDao {
 		SqlSession sqlSession=null;
 		try {
 			sqlSession=dbAccess.getSqlSession();
-			sqlSession.delete("Message.deleteBatch",ids);
+			//接口式编程
+			IMessage iMessage=sqlSession.getMapper(IMessage.class);
+			iMessage.deleteBatch(ids);
+			//sqlSession.delete("Message.deleteBatch",ids);
 			sqlSession.commit();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -161,6 +166,4 @@ public class MessageDao {
 				sqlSession.close();
 		}
 	}
-	
-		
 }
