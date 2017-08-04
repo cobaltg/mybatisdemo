@@ -6,7 +6,7 @@ import java.util.List;
 import com.zfy.dao.MessageDao;
 
 /**
- * ά����ص�ҵ����
+ * 维护相关的业务功能
  * @author think
  *
  */
