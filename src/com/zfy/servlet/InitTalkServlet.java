@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zfy.service.MaintainService;
 
 /**
- * ¶Ô»°Ò³µÄ³õÊ¼»¯¿ØÖÆ
+ * æ¶ˆæ¯åˆ—è¡¨æŸ¥è¯¢æ§åˆ¶å±‚
  * @author think
  *
  */
@@ -18,9 +18,9 @@ public class InitTalkServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		//ÉèÖÃ±àÂë
+		//è®¾ç½®ç¼–ç 
 		req.setCharacterEncoding("UTF-8");
-	    //ÏòÒ³ÃæÌø×ª
+	    //è·³è½¬é¡µé¢
 		req.getRequestDispatcher("/WEB-INF/jsp/front/talk.jsp").forward(req, resp);
 	}
 	@Override

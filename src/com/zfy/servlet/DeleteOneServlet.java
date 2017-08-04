@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zfy.service.MaintainService;
 
 /**
- * 单条删除servlet
+ * 鍗曟潯鍒犻櫎servlet
  * @author think
  *
  */
@@ -20,13 +20,13 @@ public class DeleteOneServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		//设置编码
+		//璁剧疆缂栫爜
 		req.setCharacterEncoding("UTF-8");
-		//接收页面参数
+		//璋冪敤service
 		String id=req.getParameter("id"); 
 		MaintainService maintainservice=new MaintainService();
 		maintainservice.deleteOne(id); 
-	    //向页面跳转
+	    //璺宠浆椤甸潰
 		req.getRequestDispatcher("/List.action").forward(req, resp);
 	}
 	@Override

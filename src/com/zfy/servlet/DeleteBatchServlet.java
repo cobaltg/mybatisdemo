@@ -14,13 +14,13 @@ public class DeleteBatchServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		//ÉèÖÃ±àÂë
+		//è®¾ç½®ç¼–ç 
 		req.setCharacterEncoding("UTF-8");
-		//½ÓÊÕÒ³Ãæ²ÎÊı
+		//è°ƒç”¨serviceå±‚
 		String[] ids=req.getParameterValues("id"); 
 		MaintainService maintainservice=new MaintainService();
 		maintainservice.deleteBatch(ids); 
-	    //ÏòÒ³ÃæÌø×ª
+	    //è·³è½¬é¡µé¢
 		req.getRequestDispatcher("/List.action").forward(req, resp);
 	}
 	@Override

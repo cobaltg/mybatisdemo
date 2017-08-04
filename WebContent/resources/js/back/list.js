@@ -1,5 +1,5 @@
 /**
- * 调用后台时批量删除
+ * deleteBatch JS鏂囦欢
  */
 function deleteBatch(basePath){
 	$("#mainForm").attr("action",basePath+"DeleteBatchServlet.action");

@@ -6,13 +6,13 @@ import java.util.List;
 import com.zfy.dao.MessageDao;
 
 /**
- * Î¬»¤Ïà¹ØµÄÒµÎñ¹¦ÄÜ
+ * Î¬ï¿½ï¿½ï¿½ï¿½Øµï¿½Òµï¿½ï¿½ï¿½ï¿½
  * @author think
  *
  */
 public class MaintainService {
 	/**
-	 * µ¥ÌôÉ¾³ı
+	 * å•æ¡åˆ é™¤
 	 */
 	public void deleteOne(String id ){
 		if(id!=null&&!"".equals(id.trim())){
@@ -21,7 +21,7 @@ public class MaintainService {
 		}
 	}
 	/**
-	 * ÅúÁ¿É¾³ı
+	 * æ‰¹é‡åˆ é™¤
 	 */
 	public void deleteBatch(String[] ids ){		
 			MessageDao messageDao=new MessageDao();
